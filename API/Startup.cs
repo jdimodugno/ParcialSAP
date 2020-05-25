@@ -20,7 +20,7 @@ namespace API
         {
             services
                 .AddControllers()
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddCors(cfg =>
                 cfg.AddPolicy("AllowAll",

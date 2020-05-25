@@ -8,6 +8,7 @@ namespace Data.Context
 {
     public class BankDbContext : DbContext
     {
+        public static string connectionString;
         public DbSet<BankAccount> Savings;
         public DbSet<Deposit> Deposits;
         public DbSet<Withdrawal> Withdrawals;
@@ -23,7 +24,7 @@ namespace Data.Context
                 .AddJsonFile(@Directory.GetCurrentDirectory() + "/appsettings.json")
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("Default");
+            connectionString = configuration.GetConnectionString("Default");
             optionsBuilder.UseSqlServer(connectionString);
         }
 

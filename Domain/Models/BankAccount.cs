@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using Domain.Interfaces;
 
 namespace Domain.Models
 {
+    [DataContract]
     public class BankAccount : IBankAccount
     {
         public BankAccount()
@@ -21,22 +23,30 @@ namespace Domain.Models
         }
 
         [Required]
+        [DataMember]
         public int Type { get; }
 
         [Required]
+        [DataMember]
         public Guid Number { get; }
 
         [Required]
+        [DataMember]
         public double Overdraft { get; set; }
 
+        [DataMember]
         public DateTime DateCreated { get; set; }
 
         [NotMapped]
+        [DataMember]
         public double Balance { get; set; }
 
         public ICollection<Deposit> Deposits { get; set; }
+
         public ICollection<Withdrawal> Withdrawals { get; set; }
+
         public ICollection<Transfer> TransfersAsSource { get; set; }
+
         public ICollection<Transfer> TransfersAsTarget { get; set; }
 
         public Deposit Deposit(double amount) => new Deposit { Amount = amount, TargetAccountId = Number };

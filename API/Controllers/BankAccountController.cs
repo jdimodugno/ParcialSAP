@@ -14,27 +14,30 @@ using Microsoft.Extensions.Logging;
 namespace API.Controllers
 {
     [ApiController]
+    [Route("api/accounts")]
     public class BankAccountController : GenericController<BankAccount, BankAccountComponent>
     {
 
-        public BankAccountController(ILogger<BankAccountController> logger) : base(logger, new BankAccountComponent())
-        {
-
-        }
+        public BankAccountController(ILogger<BankAccountController> logger)
+            : base(logger, new BankAccountComponent()) { }
 
         [HttpGet]
-        [Route("api/bankaccounttypes")]
+        [Route("types")]
         public JsonResult GetAccountTypes() => new JsonResult(EnumHelper<AccountTypes>.ToJson());
 
         [HttpGet]
-        [Route("api/accounts")]
         public IEnumerable<BankAccount> Read()
         {
             return _component.Read(m => m.Number != null);
         }
 
+        [HttpGet("{id}")]
+        public BankAccount ReadByNumber(string Id)
+        {
+            return ((BankAccountComponent)_component).ReadByNumber(Id);
+        }
+
         [HttpPost]
-        [Route("api/accounts")]
         public BankAccount Create([FromBody] BankAccount entity)
         {
             return _component.Create(entity);

@@ -13,8 +13,7 @@ namespace Core.Business
             _repository = repository;
         }
 
-        public T Create(T entity) => _repository.Create(entity);
+        public virtual T Create(T entity) => _repository.Create(entity);
         public IEnumerable<T> Read(Expression<Func<T, bool>> expression) => _repository.Read(expression);
-
     }
 }
