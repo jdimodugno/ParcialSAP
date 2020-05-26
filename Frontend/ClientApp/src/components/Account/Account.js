@@ -79,6 +79,8 @@ const Account = ({
             {accountTypes[account.type]}
             <br /> 
             Alias: <b>{account.alias}</b> | Código: <b>{account.number}</b>
+            <br /> 
+            Balance Actual: <b>${account.balance}</b>
           </h1>
         )
       }

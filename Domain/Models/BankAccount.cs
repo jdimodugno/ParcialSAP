@@ -24,7 +24,7 @@ namespace Domain.Models
 
         [Required]
         [DataMember]
-        public int Type { get; }
+        public int Type { get; set; }
 
         [Required]
         [DataMember]
