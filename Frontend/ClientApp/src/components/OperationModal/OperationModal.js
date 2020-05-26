@@ -55,8 +55,7 @@ const OperationModal = ({
         operation,
         payload,
         () => {
-          refreshAccounts();
-          toggleModal();
+          refreshAccounts(toggleModal);
         },
         (err) => {
           setError(err);
@@ -64,7 +63,7 @@ const OperationModal = ({
         },
       );
     },
-    [operation, isTransfer, accountNumber, amount, targetAccountId, toggleModal],
+    [operation, isTransfer, accountNumber, amount, targetAccountId, refreshAccounts, toggleModal],
   );
 
   return (

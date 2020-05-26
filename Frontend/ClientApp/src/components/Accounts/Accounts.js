@@ -17,11 +17,12 @@ const Accounts = () => {
   })
 
   const fetchAccountsCallback = useCallback(
-    () => {
+    (callback) => {
       fetchAccounts()
         .then(accounts => {
           setData(accounts);
           setAccounts(accounts);
+          if (callback) callback();
         });
     },
     [setAccounts, setData],
