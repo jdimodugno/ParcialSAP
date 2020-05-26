@@ -76,7 +76,9 @@ const Account = ({
       {
         !!account && (
           <h1>
-            {accountTypes[account.type]}: <b>{account.number}</b>
+            {accountTypes[account.type]}
+            <br /> 
+            Alias: <b>{account.alias}</b> | Código: <b>{account.number}</b>
           </h1>
         )
       }
