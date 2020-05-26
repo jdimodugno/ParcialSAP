@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Api.Helpers;
 using Core;
 using Core.Business;
-using Domain.Enums;
-using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,17 +21,31 @@ namespace API.Controllers
             return _component.Read(m => m.Id != null);
         }
 
+
+        [HttpGet("source/{id}")]
+        public List<Transfer> ReadBySourceAccountNumber(string Id)
+        {
+            return ((TransferComponent)_component).ReadBySourceAccountNumber(Id);
+        }
+
+
+        [HttpGet("target/{id}")]
+        public List<Transfer> ReadByTargetAccountNumber(string Id)
+        {
+            return ((TransferComponent)_component).ReadByTargetAccountNumber(Id);
+        }
+
         [HttpPost]
         public IActionResult Create([FromBody] Transfer entity)
         {
             try
             {
                 OperationResult<Transfer> result = _component.Create(entity);
-                return result.HasError ? StatusCode(412, result.Error) : Ok(result.data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return StatusCode(412, ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }

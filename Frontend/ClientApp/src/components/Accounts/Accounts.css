@@ -1,0 +1,17 @@
+.account-actions > button:last-child {
+  margin-left: 16px;
+}
+
+.cards {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  box-sizing: border-box;
+  margin: 4px;
+  max-width: 360px;
+  min-width: 360px;
+}
+

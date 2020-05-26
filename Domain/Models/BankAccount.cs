@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using Domain.Interfaces;
 
 namespace Domain.Models
 {
     [DataContract]
-    public class BankAccount : IBankAccount
+    public class BankAccount
     {
         public BankAccount()
         {
             Number = Guid.NewGuid();
+            DateCreated = DateTime.Now;
         }
 
         public BankAccount(int _type, Guid _number, double _overdraft = 0)
@@ -32,6 +32,10 @@ namespace Domain.Models
 
         [Required]
         [DataMember]
+        public string Alias { get; set; }
+
+        [Required]
+        [DataMember]
         public double Overdraft { get; set; }
 
         [DataMember]
@@ -48,16 +52,5 @@ namespace Domain.Models
         public ICollection<Transfer> TransfersAsSource { get; set; }
 
         public ICollection<Transfer> TransfersAsTarget { get; set; }
-
-        public Deposit Deposit(double amount) => new Deposit { Amount = amount, TargetAccountId = Number };
-
-        public Transfer Transfer(Guid targetAccountId, double amount) => new Transfer
-        {
-            Amount = amount,
-            SourceAccountId = Number,
-            TargetAccountId = targetAccountId
-        };
-
-        public Withdrawal Withdraw(double amount) => new Withdrawal { Amount = amount, TargetAccountId = Number };
     }
 }

@@ -13,6 +13,7 @@ namespace Data.Migrations
                 {
                     Number = table.Column<Guid>(nullable: false),
                     Type = table.Column<int>(nullable: false),
+                    Alias = table.Column<string>(nullable: false),
                     Overdraft = table.Column<double>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false)
                 },
@@ -86,16 +87,22 @@ namespace Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "BankAccount",
-                columns: new[] { "Number", "DateCreated", "Overdraft", "Type" },
+                columns: new[] { "Number", "Alias", "DateCreated", "Overdraft", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("e34db995-bd5b-45f3-a85b-7e5ccfc5bfeb"), new DateTime(2020, 5, 25, 15, 18, 46, 270, DateTimeKind.Local).AddTicks(1900), 0.0, 0 },
-                    { new Guid("b0979f9d-1c73-42c5-aeea-1740076bf5ab"), new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5050), 0.0, 0 },
-                    { new Guid("787a369f-e48f-4e92-b760-5a9c919dcacf"), new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5080), 0.0, 0 },
-                    { new Guid("df5ef595-d9d4-47a2-9962-fb69c06d9c78"), new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5080), 2000.0, 1 },
-                    { new Guid("9d31da51-44a7-4737-8b3c-0675644f9ff3"), new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5090), 1000.0, 1 },
-                    { new Guid("5aad84d1-f9f4-4815-8bbd-cd543ea2e3e3"), new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5090), 750.0, 1 }
+                    { new Guid("78bc3ff5-2b92-4d6e-8367-bc10b6e16d66"), "CA.SEED.ALPHA", new DateTime(2020, 5, 26, 14, 40, 22, 232, DateTimeKind.Local).AddTicks(4960), 0.0, 0 },
+                    { new Guid("b3098986-7560-495c-893c-120a7a4108d9"), "CA.SEED.BETA", new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9390), 0.0, 0 },
+                    { new Guid("991415f2-cb31-4d9d-a6a4-1058ae0b960b"), "CA.SEED.GAMMA", new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9430), 0.0, 0 },
+                    { new Guid("ef308606-ed29-4ea3-8478-9015d97fce55"), "CC.SEED.RHO", new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9440), 2000.0, 1 },
+                    { new Guid("e1743286-9b70-4dfa-b157-363bd33ece26"), "CC.SEED.EPSILON", new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9440), 1000.0, 1 },
+                    { new Guid("75fc66c6-242f-455e-a6b9-682270331694"), "CC.SEED.OMEGA", new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9440), 750.0, 1 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BankAccount_Alias",
+                table: "BankAccount",
+                column: "Alias",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deposit_TargetAccountId",

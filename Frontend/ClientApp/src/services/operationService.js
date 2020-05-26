@@ -14,16 +14,25 @@ export const performOperation = (operationKey, payload, successHandler, errorHan
     switch (operationKey) {
       case DEPOSIT:
         return createDeposit(payload)
-          .then(data => successHandler(data))
-          .catch(err => errorHandler(err));
+          .then(response => {
+            if(response.error) throw new Error(response.error);
+            successHandler()
+          })
+          .catch(err => errorHandler(err.message));
       case WITHDRAW:
         return createWithdrawal(payload)
-          .then(data => successHandler(data))
-          .catch(err => errorHandler(err));
+          .then(response => {
+            if(response.error) throw new Error(response.error);
+            successHandler()
+          })
+          .catch(err => errorHandler(err.message));
       case TRANSFER:
         return createTransfer(payload)
-          .then(data => successHandler(data))
-          .catch(err => errorHandler(err));
+          .then(response => {
+            if(response.error) throw new Error(response.error);
+            successHandler()
+          })
+          .catch(err => errorHandler(err.message));
       default:
         throw new Error('Invalid operation');
     }

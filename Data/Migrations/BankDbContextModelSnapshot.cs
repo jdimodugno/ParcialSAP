@@ -25,6 +25,10 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
@@ -37,48 +41,57 @@ namespace Data.Migrations
 
                     b.HasKey("Number");
 
+                    b.HasIndex("Alias")
+                        .IsUnique();
+
                     b.ToTable("BankAccount");
 
                     b.HasData(
                         new
                         {
-                            Number = new Guid("e34db995-bd5b-45f3-a85b-7e5ccfc5bfeb"),
-                            DateCreated = new DateTime(2020, 5, 25, 15, 18, 46, 270, DateTimeKind.Local).AddTicks(1900),
+                            Number = new Guid("78bc3ff5-2b92-4d6e-8367-bc10b6e16d66"),
+                            Alias = "CA.SEED.ALPHA",
+                            DateCreated = new DateTime(2020, 5, 26, 14, 40, 22, 232, DateTimeKind.Local).AddTicks(4960),
                             Overdraft = 0.0,
                             Type = 0
                         },
                         new
                         {
-                            Number = new Guid("b0979f9d-1c73-42c5-aeea-1740076bf5ab"),
-                            DateCreated = new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5050),
+                            Number = new Guid("b3098986-7560-495c-893c-120a7a4108d9"),
+                            Alias = "CA.SEED.BETA",
+                            DateCreated = new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9390),
                             Overdraft = 0.0,
                             Type = 0
                         },
                         new
                         {
-                            Number = new Guid("787a369f-e48f-4e92-b760-5a9c919dcacf"),
-                            DateCreated = new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5080),
+                            Number = new Guid("991415f2-cb31-4d9d-a6a4-1058ae0b960b"),
+                            Alias = "CA.SEED.GAMMA",
+                            DateCreated = new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9430),
                             Overdraft = 0.0,
                             Type = 0
                         },
                         new
                         {
-                            Number = new Guid("df5ef595-d9d4-47a2-9962-fb69c06d9c78"),
-                            DateCreated = new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5080),
+                            Number = new Guid("ef308606-ed29-4ea3-8478-9015d97fce55"),
+                            Alias = "CC.SEED.RHO",
+                            DateCreated = new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9440),
                             Overdraft = 2000.0,
                             Type = 1
                         },
                         new
                         {
-                            Number = new Guid("9d31da51-44a7-4737-8b3c-0675644f9ff3"),
-                            DateCreated = new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5090),
+                            Number = new Guid("e1743286-9b70-4dfa-b157-363bd33ece26"),
+                            Alias = "CC.SEED.EPSILON",
+                            DateCreated = new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9440),
                             Overdraft = 1000.0,
                             Type = 1
                         },
                         new
                         {
-                            Number = new Guid("5aad84d1-f9f4-4815-8bbd-cd543ea2e3e3"),
-                            DateCreated = new DateTime(2020, 5, 25, 15, 18, 46, 281, DateTimeKind.Local).AddTicks(5090),
+                            Number = new Guid("75fc66c6-242f-455e-a6b9-682270331694"),
+                            Alias = "CC.SEED.OMEGA",
+                            DateCreated = new DateTime(2020, 5, 26, 14, 40, 22, 243, DateTimeKind.Local).AddTicks(9440),
                             Overdraft = 750.0,
                             Type = 1
                         });

@@ -58,7 +58,7 @@ namespace Data.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Error during balance calculation");
+                throw new Exception("Error during balance calculation", ex);
             }
             finally
             {

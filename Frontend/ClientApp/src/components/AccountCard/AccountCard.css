@@ -1,0 +1,9 @@
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.alias {
+  display: flex;
+  justify-content: space-between;
+}

@@ -21,17 +21,23 @@ namespace API.Controllers
             return _component.Read(m => m.Id != null);
         }
 
+        [HttpGet("{id}")]
+        public List<Withdrawal> ReadByAccountNumber(string Id)
+        {
+            return ((WithdrawalComponent)_component).ReadByAccountNumber(Id);
+        }
+
         [HttpPost]
         public IActionResult Create([FromBody] Withdrawal entity)
         {
             try
             {
                 OperationResult<Withdrawal> result = _component.Create(entity);
-                return result.HasError ? StatusCode(412, result.Error) : Ok(result.data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return StatusCode(412, ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }

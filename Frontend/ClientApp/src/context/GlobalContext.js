@@ -40,8 +40,8 @@ export const GlobalProvider = ({ children }) => {
     setProcessing, 
     () => {
       const minimalAccounts = data.map((account) => {
-        const { number, type } = account;
-        return { number, label: `${ accountTypes[type] }: ${number} }` };
+        const { number, type, alias } = account;
+        return { number, label: `${ accountTypes[type] }: ${alias}` };
       });
       setAccounts(minimalAccounts);
     }

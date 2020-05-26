@@ -1,55 +1,123 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Spinner, Table } from 'reactstrap';
+import moment from 'moment';
 import {
-  Card, CardBody, CardTitle, CardSubtitle, CardText, Button, Badge
-} from 'reactstrap';
-import OperationModal from '../OperationModal/OperationModal';
-import { DEPOSIT, WITHDRAW, TRANSFER } from '../../common/operations';
+  fetchAccountById,
+  fetchDeposits,
+  fetchWithdrawals,
+  fetchTransfersAsSource,
+  fetchTransfersAsTarget,
+} from '../../utils/apiCalls';
+import { GlobalContext } from '../../context/GlobalContext'
+import './Account.css';
 
 const Account = ({
-  type,
-  label,
-  number,
-  overdraft,
-  dateCreated,
-  balance,
+  match,
 }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [operation, setOperation] = useState(null);
+  const [movements, setMovements] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [deposits, setDeposits] = useState(null);
+  const [withdrawals, setWithdrawals] = useState(null);
+  const [transfersAsSource, setTransfersAsSource] = useState(null);
+  const [transfersAsTarget, setTransfersAsTarget] = useState(null);
+  const { accountTypes } = useContext(GlobalContext);
 
-  const toggleModal = useCallback(
-    (operationKey) => {
-      if (!modalOpen) setOperation(operationKey);
-      setModalOpen(!modalOpen);
-      if (!modalOpen && !operationKey) setOperation(null);
-    }, [modalOpen],
-  );
+  useEffect(() => {
+    const { params : { accountId } } = match;
+    fetchAccountById(accountId)
+      .then(data => setAccount(data));
+    fetchDeposits(accountId)
+      .then(data => setDeposits(data));
+    fetchWithdrawals(accountId)
+      .then(data => setWithdrawals(data));
+    fetchTransfersAsSource(accountId)
+      .then(data => setTransfersAsSource(data));
+    fetchTransfersAsTarget(accountId)
+      .then(data => setTransfersAsTarget(data));
+  }, [])
 
-  return ( 
-    <>
-      <Card>
-        <CardBody>
-          <CardTitle>
-            <Badge>{label}</Badge>
-            &nbsp; Número: {number}
-          </CardTitle>
-          <CardSubtitle>
-            Creada: {dateCreated}
-          </CardSubtitle>
-          <CardText>
-            Balance: {balance} || Descubierto: {overdraft}
-          </CardText>
-          <Button onClick={() => toggleModal(DEPOSIT)}>Depositar</Button>
-          <Button onClick={() => toggleModal(WITHDRAW)}>Extraer</Button>
-          <Button onClick={() => toggleModal(TRANSFER)}>Transferir</Button>
-        </CardBody>
-      </Card>
-      <OperationModal
-        accountNumber={number}
-        modalOpen={modalOpen && !!operation}
-        operation={operation}
-        toggleModal={toggleModal}
-      />
-    </>
+  useEffect(() => {
+    if (account && deposits && withdrawals && transfersAsSource && transfersAsTarget) {
+      const _movements = [
+        ...deposits.map(({ id, amount, dateCreated }) => ({
+          type: 'Deposito',
+          amount,
+          id,
+          dateCreated: new Date(dateCreated),
+        })),
+        ...withdrawals.map(({ id, amount, dateCreated }) => ({
+          type: 'Extracción',
+          amount,
+          id,
+          dateCreated: new Date(dateCreated),
+        })),
+        ...transfersAsSource.map(({ id, amount, dateCreated, targetAccountId }) => ({
+          type: 'Transferencia Realizada',
+          amount,
+          id,
+          dateCreated: new Date(dateCreated),
+          accountId: targetAccountId,
+          source: true,
+        })),
+        ...transfersAsTarget.map(({ id, amount, dateCreated, sourceAccountId }) => ({
+          type: 'Transferencia Recibida',
+          amount,
+          id,
+          dateCreated: new Date(dateCreated),
+          accountId: sourceAccountId,
+        }))
+      ].sort((a, b) => a.dateCreated - b.dateCreated);
+      setMovements(_movements);
+    }
+  }, [account, deposits, withdrawals,transfersAsTarget, transfersAsSource])
+
+  return (
+    <div>
+      {
+        !!account && (
+          <h1>
+            {accountTypes[account.type]}: <b>{account.number}</b>
+          </h1>
+        )
+      }
+      <Table hover>
+        <thead>
+          <tr>
+            <th>Código Operación</th>
+            <th>Tipo</th>
+            <th>Monto</th>
+            <th>Cuenta Origen</th>
+            <th>Cuenta Destino</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          { 
+            !!movements && (
+              !!movements.length ? movements.map(({ type, amount, id, dateCreated, accountId, source }) => (
+                <tr key={id}>
+                  <th scope="row">{ id }</th>
+                  <td>{ type }</td>
+                  <td>${ amount }</td>
+                  <td>{ source ? '' : accountId }</td>
+                  <td>{ source ? accountId : '' }</td>
+                  <td>{ moment(dateCreated).format('DD/MM/YYYY, h:mm:ss a') }</td>
+                </tr>
+              )) : (
+                <tr>
+                  <td>No se registran movimientos</td>
+                </tr>
+              )
+            )
+          }
+        </tbody>
+      </Table>
+      {
+        !movements && (
+          <Spinner type="grow" color="primary" /> 
+        ) 
+      }
+    </div>
   );
 }
  

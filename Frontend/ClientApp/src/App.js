@@ -3,6 +3,7 @@ import { Route } from 'react-router';
 import { Spinner } from 'reactstrap';
 import Layout from './layout/Main';
 import Accounts from './components/Accounts/Accounts';
+import Account from './components/Account/Account';
 import { GlobalContext } from './context/GlobalContext';
 import { fetchAccountTypes } from './utils/apiCalls';
 
@@ -24,7 +25,10 @@ const App = () => {
         loading ? (
           <Spinner type="grow" color="primary" />
         ) : (
-          <Route exact path='/' component={Accounts} />
+          <>
+            <Route exact path='/' component={Accounts} />
+            <Route path='/account/:accountId' component={Account} />
+          </>
         )
       }
     </Layout>

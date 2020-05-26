@@ -1,3 +1,3 @@
-export const DEPOSIT = 'deposit';
-export const WITHDRAW = 'withdraw';
-export const TRANSFER = 'transfer';
+export const DEPOSIT = 'Depositar';
+export const WITHDRAW = 'Extraer';
+export const TRANSFER = 'Transferir';

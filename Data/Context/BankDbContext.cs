@@ -38,6 +38,7 @@ namespace Data.Context
                     entity
                         .Property(a => a.DateCreated)
                         .ValueGeneratedOnAdd();
+                    entity.HasIndex(a => a.Alias).IsUnique();
                     entity
                         .Property(a => a.Type)
                         .IsRequired();
@@ -103,13 +104,13 @@ namespace Data.Context
         {
             modelBuilder.Entity<BankAccount>()
                 .HasData(
-                    new BankAccount(0, Guid.NewGuid()) { DateCreated = DateTime.Now },
-                    new BankAccount(0, Guid.NewGuid()) { DateCreated = DateTime.Now },
-                    new BankAccount(0, Guid.NewGuid()) { DateCreated = DateTime.Now },
-                    new BankAccount(1, Guid.NewGuid(), 2000) { DateCreated = DateTime.Now },
-                    new BankAccount(1, Guid.NewGuid(), 1000) { DateCreated = DateTime.Now },
-                    new BankAccount(1, Guid.NewGuid(), 750) { DateCreated = DateTime.Now }
-                );
+                    new BankAccount(0, Guid.NewGuid()) { DateCreated = DateTime.Now, Alias = "CA.SEED.ALPHA" },
+                    new BankAccount(0, Guid.NewGuid()) { DateCreated = DateTime.Now, Alias = "CA.SEED.BETA" },
+                    new BankAccount(0, Guid.NewGuid()) { DateCreated = DateTime.Now, Alias = "CA.SEED.GAMMA" },
+                    new BankAccount(1, Guid.NewGuid(), 2000) { DateCreated = DateTime.Now, Alias = "CC.SEED.RHO" },
+                    new BankAccount(1, Guid.NewGuid(), 1000) { DateCreated = DateTime.Now, Alias = "CC.SEED.EPSILON" },
+                    new BankAccount(1, Guid.NewGuid(), 750) { DateCreated = DateTime.Now, Alias = "CC.SEED.OMEGA" }
+                ); ;
         }
     }
 }
