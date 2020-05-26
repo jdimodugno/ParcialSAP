@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Api.Helpers;
+using Core;
 using Core.Business;
 using Domain.Enums;
 using Domain.Interfaces;
@@ -27,9 +28,17 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public Transfer Create([FromBody] Transfer entity)
+        public IActionResult Create([FromBody] Transfer entity)
         {
-            return _component.Create(entity);
+            try
+            {
+                OperationResult<Transfer> result = _component.Create(entity);
+                return result.HasError ? StatusCode(412, result.Error) : Ok(result.data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(412, ex.Message);
+            }
         }
     }
 }

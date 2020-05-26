@@ -9,6 +9,7 @@ namespace Domain.Models
         public Transfer()
         {
             Id = Guid.NewGuid();
+            DateCreated = DateTime.Now;
         }
 
         public Transfer(Guid id)

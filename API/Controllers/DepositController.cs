@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Api.Helpers;
+using Core;
 using Core.Business;
 using Domain.Enums;
 using Domain.Interfaces;
@@ -28,9 +29,17 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public Deposit Create([FromBody] Deposit entity)
+        public IActionResult Create([FromBody] Deposit entity)
         {
-            return _component.Create(entity);
+            try
+            {
+                OperationResult<Deposit> result = _component.Create(entity);
+                return result.HasError ? StatusCode(412, result.Error) : Ok(result.data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(412, ex.Message);
+            }
         }
     }
 }

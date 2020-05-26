@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Core;
 using Core.Business;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +22,17 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public Withdrawal Create([FromBody] Withdrawal entity)
+        public IActionResult Create([FromBody] Withdrawal entity)
         {
-            return _component.Create(entity);
+            try
+            {
+                OperationResult<Withdrawal> result = _component.Create(entity);
+                return result.HasError ? StatusCode(412, result.Error) : Ok(result.data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(412, ex.Message);
+            }
         }
     }
 }
