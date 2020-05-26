@@ -25,6 +25,7 @@ const OperationModal = ({
   accountNumber,
   modalOpen,
   toggleModal,
+  refreshAccounts,
 }) => {
   const [enabled, setEnabled] = useState(false);
   const [targetAccountId, setTargetAccountId] = useState(null);
@@ -53,7 +54,10 @@ const OperationModal = ({
       performOperation(
         operation,
         payload,
-        () => toggleModal(),
+        () => {
+          refreshAccounts();
+          toggleModal();
+        },
         (err) => {
           setError(err);
           setErrorVisible(true);

@@ -64,6 +64,7 @@ const Accounts = () => {
               <AccountCard
                 key={account.number}
                 label={accountTypes[account.type]}
+                refreshAccounts={fetchAccountsCallback}
                 {...account}
               />
             ))

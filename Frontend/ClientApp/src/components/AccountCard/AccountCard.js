@@ -15,6 +15,7 @@ const AccountCard = ({
   overdraft,
   dateCreated,
   balance,
+  ...props
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [operation, setOperation] = useState(null);
@@ -60,6 +61,7 @@ const AccountCard = ({
         modalOpen={modalOpen && !!operation}
         operation={operation}
         toggleModal={toggleModal}
+        {...props}
       />
     </>
   );
