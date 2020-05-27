@@ -20,7 +20,8 @@ namespace Core.Business
 
         public virtual OperationResult<T> Create(T entity)
         {
-            OperationResult<T> result = new OperationResult<T>() { OperationType = typeof(T).GetType().Name };
+
+            OperationResult<T> result = new OperationResult<T>() { OperationType = Activator.CreateInstance<T>().GetType().Name };
 
             if (_validateOperation != null)
             {
